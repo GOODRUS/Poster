@@ -1,184 +1,30 @@
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doReturn;
 
 public class PosterManagerTest {
 
-    @Test
-    public void shouldOutputAllFindMoviesInTheOrderOfEdition() {
+    PosterRepository repo = Mockito.mock(PosterRepository.class);
+    PosterManager manager = new PosterManager(repo);
 
-        PosterManager manager = new PosterManager();
+    PosterMovies movie1 = new PosterMovies(12,"Бладшот");
+    PosterMovies movie2 = new PosterMovies(23,"Вперёд");
+    PosterMovies movie3 = new PosterMovies(34,"Отель Белград");
+    PosterMovies movie4 = new PosterMovies(48,"Джентельмены");
+    PosterMovies movie5 = new PosterMovies(56,"Человек-неведимка");
+    PosterMovies movie6 = new PosterMovies(63,"Тролли. Мировой тур");
+    PosterMovies movie7 = new PosterMovies(71,"Номер один");
 
-        manager.addMovie("Бладшот");
-        manager.addMovie("Вперёд");
-        manager.addMovie("Отель Белград");
-        manager.addMovie("Джентельмены");
-        manager.addMovie("Человек-неведимка");
-        manager.addMovie("Тролли. Мировой тур");
-        manager.addMovie("Номер один");
-
-        String[] expected = {"Бладшот", "Вперёд", "Отель Белград", "Джентельмены", "Человек-неведимка", "Тролли. Мировой тур", "Номер один"};
-        String[] actual = manager.findAll();
-
-        assertArrayEquals(expected, actual);
-    }
 
     @Test
-    public void shouldOutputMoviesInReverseOrder() {
+    public void shouldTestFindAll() {
+        PosterMovies[] movies = {movie1, movie2, movie3, movie4, movie5, movie6, movie7};
+        doReturn(movies).when(repo).findAll();
 
-        PosterManager manager = new PosterManager();
-        manager.addMovie("Бладшот");
-        manager.addMovie("Вперёд");
-        manager.addMovie("Отель Белград");
-        manager.addMovie("Джентельмены");
-        manager.addMovie("Человек-неведимка");
-        manager.addMovie("Тролли. Мировой тур");
-        manager.addMovie("Номер один");
-
-        String[] expected = {"Номер один", "Тролли. Мировой тур", "Человек-неведимка", "Джентельмены", "Отель Белград", "Вперёд", "Бладшот"};
-        String[] actual = manager.findLast();
-
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    public void shouldOutputAllFindMoviesInTheOrderOfEditionMax() {
-
-        PosterManager manager = new PosterManager();
-        manager.addMovie("Бладшот");
-        manager.addMovie("Вперёд");
-        manager.addMovie("Отель Белград");
-        manager.addMovie("Джентельмены");
-        manager.addMovie("Человек-неведимка");
-        manager.addMovie("Тролли. Мировой тур");
-        manager.addMovie("Номер один");
-        manager.addMovie("Человек-неведимка");
-        manager.addMovie("Тролли. Мировой тур");
-        manager.addMovie("Номер один");
-
-        String[] expected = {"Бладшот", "Вперёд", "Отель Белград", "Джентельмены", "Человек-неведимка", "Тролли. Мировой тур", "Номер один", "Человек-неведимка", "Тролли. Мировой тур", "Номер один"};
-        String[] actual = manager.findAll();
-
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    public void shouldOutputAllFindMoviesInTheOrderOfEditionMin() {
-
-        PosterManager manager = new PosterManager();
-
-        String[] expected = {};
-        String[] actual = manager.findAll();
-
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    public void shouldOutputAllFindMoviesInTheOrderOfEditionMaximum() {
-
-        PosterManager manager = new PosterManager();
-        manager.addMovie("Бладшот");
-        manager.addMovie("Вперёд");
-        manager.addMovie("Отель Белград");
-        manager.addMovie("Джентельмены");
-        manager.addMovie("Человек-неведимка");
-        manager.addMovie("Тролли. Мировой тур");
-        manager.addMovie("Номер один");
-        manager.addMovie("Человек-неведимка");
-        manager.addMovie("Тролли. Мировой тур");
-        manager.addMovie("Номер один");
-        manager.addMovie("Бладшот");
-
-        String[] expected = {"Бладшот", "Вперёд", "Отель Белград", "Джентельмены", "Человек-неведимка", "Тролли. Мировой тур", "Номер один", "Человек-неведимка", "Тролли. Мировой тур", "Номер один", "Бладшот"};
-        String[] actual = manager.findAll();
-
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    public void shouldOutputAllFindMoviesInTheOrderOfEditionSizeTen() {
-
-        PosterManager manager = new PosterManager();
-        manager.addMovie("Бладшот");
-        manager.addMovie("Вперёд");
-        manager.addMovie("Отель Белград");
-        manager.addMovie("Джентельмены");
-        manager.addMovie("Человек-неведимка");
-        manager.addMovie("Тролли. Мировой тур");
-        manager.addMovie("Номер один");
-        manager.addMovie("Человек-неведимка");
-        manager.addMovie("Тролли. Мировой тур");
-        manager.addMovie("Номер один");
-        manager.addMovie("Бладшот");
-
-        String[] expected = {"Бладшот", "Номер один", "Тролли. Мировой тур", "Человек-неведимка", "Номер один", "Тролли. Мировой тур", "Человек-неведимка", "Джентельмены", "Отель Белград", "Вперёд"};
-        String[] actual = manager.findLast();
-
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    public void shouldOutputMoviesInReverseOrderMaximum() {
-
-        PosterManager manager = new PosterManager();
-        manager.addMovie("Бладшот");
-        manager.addMovie("Вперёд");
-        manager.addMovie("Отель Белград");
-        manager.addMovie("Джентельмены");
-        manager.addMovie("Человек-неведимка");
-        manager.addMovie("Тролли. Мировой тур");
-        manager.addMovie("Номер один");
-        manager.addMovie("Человек-неведимка");
-        manager.addMovie("Тролли. Мировой тур");
-        manager.addMovie("Номер один");
-        manager.addMovie("Бладшот");
-
-        String[] expected = {"Бладшот", "Номер один", "Тролли. Мировой тур", "Человек-неведимка", "Номер один", "Тролли. Мировой тур", "Человек-неведимка", "Джентельмены", "Отель Белград", "Вперёд"};
-        String[] actual = manager.findLast();
-
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    public void shouldOutputMoviesInReverseOrderSize() {
-
-        PosterManager manager = new PosterManager(11);
-        manager.addMovie("Бладшот");
-        manager.addMovie("Вперёд");
-        manager.addMovie("Отель Белград");
-        manager.addMovie("Джентельмены");
-        manager.addMovie("Человек-неведимка");
-        manager.addMovie("Тролли. Мировой тур");
-        manager.addMovie("Номер один");
-        manager.addMovie("Человек-неведимка");
-        manager.addMovie("Тролли. Мировой тур");
-        manager.addMovie("Номер один");
-        manager.addMovie("Бладшот");
-
-        String[] expected = {"Бладшот", "Номер один", "Тролли. Мировой тур", "Человек-неведимка", "Номер один", "Тролли. Мировой тур", "Человек-неведимка", "Джентельмены", "Отель Белград", "Вперёд", "Бладшот"};
-        String[] actual = manager.findLast();
-
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    public void shouldOutputMoviesInReverseOrderSizeMax() {
-
-        PosterManager manager = new PosterManager(7);
-        manager.addMovie("Бладшот");
-        manager.addMovie("Вперёд");
-        manager.addMovie("Отель Белград");
-        manager.addMovie("Джентельмены");
-        manager.addMovie("Человек-неведимка");
-        manager.addMovie("Тролли. Мировой тур");
-        manager.addMovie("Номер один");
-        manager.addMovie("Человек-неведимка");
-        manager.addMovie("Тролли. Мировой тур");
-        manager.addMovie("Номер один");
-        manager.addMovie("Бладшот");
-
-        String[] expected = {"Бладшот", "Номер один", "Тролли. Мировой тур", "Человек-неведимка", "Номер один", "Тролли. Мировой тур", "Человек-неведимка"};
-        String[] actual = manager.findLast();
+        PosterMovies[] expected = {movie1, movie2, movie3, movie4, movie5, movie6, movie7};
+        PosterMovies[] actual = manager.findAll();
 
         assertArrayEquals(expected, actual);
     }
